@@ -18,6 +18,7 @@
 #include <set>
 #include <sstream>
 #include <utility>
+#include <memory>
 
 static int hScore(Velocity const& v)
 {
@@ -141,10 +142,10 @@ int main()
     std::map<Velocity, std::pair<Velocity, Angle>> cameFrom;
 
     // std::map<Velocity, int> gScore;
-    StaticMatrix<int, -500, 500, -500, 500> gScore;
+    auto gScoresPtr = std::make_unique<StaticMatrix<int, -500, 500, -500, 500>>();
 
     openSet.emplace(init_vel, 0, hScore(init_vel));
-    gScore.value(init_vel[0], init_vel[1]) = 0;
+    gScoresPtr->value(init_vel[0], init_vel[1]) = 0;
 
     float best_v = 0;
     while (!openSet.empty())
@@ -214,8 +215,8 @@ int main()
 
         // int const tentative_gScore = -neighbour.VectorLength();
         int const tentative_gScore = -neighbour[0];
-        if (auto& iter = gScore.value(neighbour[0], neighbour[1]); iter == 0) // TODO: correct?
-        // if (auto const iter = gScore.find(neighbour); iter == gScore.cend())
+        if (auto& iter = gScoresPtr->value(neighbour[0], neighbour[1]); iter == 0) // TODO: correct?
+        // if (auto const iter = gScoresPtr->find(neighbour); iter == gScoresPtr->cend())
         {
           openSet.emplace(neighbour, tentative_gScore, hScore(neighbour));
           cameFrom[neighbour] = std::make_pair(current.m_v, yaw);
