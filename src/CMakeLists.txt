@@ -8,3 +8,7 @@ add_executable(defrag_optimizer
 set_target_properties(defrag_optimizer PROPERTIES
   LINK_FLAGS_RELEASE -s
   PREFIX "")
+
+if(WIN32)
+  target_compile_definitions(defrag_optimizer PRIVATE _USE_MATH_DEFINES)
+endif()
