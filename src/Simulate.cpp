@@ -9,21 +9,21 @@
 
 namespace
 {
-  static std::array<std::array<float, 2>, 65536> cosSinTable = [] {
-    std::array<std::array<float, 2>, 65536> table;
-    for (int yaw = 0; yaw < 65536; ++yaw)
-    {
-      // PM_UpdateViewAngles
-      float const yaw_DEG = SHORT2ANGLE(yaw);
+static std::array<std::array<float, 2>, 65536> cosSinTable = [] {
+  std::array<std::array<float, 2>, 65536> table;
+  for (int yaw = 0; yaw < 65536; ++yaw)
+  {
+    // PM_UpdateViewAngles
+    float const yaw_DEG = SHORT2ANGLE(yaw);
 
-      float const yaw_RAD = yaw_DEG * (M_PI * 2 / 360);
-      float const sy      = std::sin(yaw_RAD);
-      float const cy      = std::cos(yaw_RAD);
-      table[yaw]          = { cy, sy };
-    }
-    return table;
-  }();
-}
+    float const yaw_RAD = yaw_DEG * (M_PI * 2 / 360);
+    float const sy      = std::sin(yaw_RAD);
+    float const cy      = std::cos(yaw_RAD);
+    table[yaw]          = { cy, sy };
+  }
+  return table;
+}();
+} // namespace
 
 template class Simulate<6, 10>;
 template class Simulate<0, 1>;
@@ -70,8 +70,8 @@ void Simulate<friction_, acceleration_>::accelerate(Velocity& v, Angle yaw)
   // right.VectorNormalize();
 
 #ifndef FM_ONLY
-  Array wishdir(forward_x * cmd.forwardmove + right_x * cmd.rightmove,
-                forward_y * cmd.forwardmove + right_y * cmd.rightmove);
+  Array wishdir(
+    forward_x * cmd.forwardmove + right_x * cmd.rightmove, forward_y * cmd.forwardmove + right_y * cmd.rightmove);
   float wishspeed = wishdir.VectorNormalize();
   wishspeed *= scale;
 

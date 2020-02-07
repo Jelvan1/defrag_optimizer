@@ -14,10 +14,10 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <utility>
-#include <memory>
 
 static int hScore(Velocity const& v)
 {
@@ -100,9 +100,10 @@ public:
   std::multiset<Node, Compare> nodes;
 };
 
-static void reconstruct_path(std::ostream&                                         os,
-                             std::map<Velocity, std::pair<Velocity, Angle>> const& cameFrom,
-                             Velocity const&                                       current)
+static void reconstruct_path(
+  std::ostream&                                         os,
+  std::map<Velocity, std::pair<Velocity, Angle>> const& cameFrom,
+  Velocity const&                                       current)
 {
   auto const iter = cameFrom.find(current);
   if (iter == cameFrom.cend()) return;
@@ -149,7 +150,7 @@ int main()
     float best_v = 0;
     while (!openSet.empty())
     {
-      Node const current                          = openSet.pop();
+      Node const current                              = openSet.pop();
       closedSet.value(current.m_v[0], current.m_v[1]) = true;
       // auto const [it, inserted] = closedSet.emplace(current.m_v);
       // assert(inserted);
@@ -190,8 +191,8 @@ int main()
         // auto const real_v = realVelocity(cameFrom, current.m_v);
         // std::string const file = static_cast<std::ostringstream&>(std::ostringstream() << real_v).str() + ".cfg";
         std::string const file =
-          static_cast<std::ostringstream&>(std::ostringstream()
-                                           << init_vel << "_" << current.m_v.VectorLength() << "_" << current.m_gScore)
+          static_cast<std::ostringstream&>(
+            std::ostringstream() << init_vel << "_" << current.m_v.VectorLength() << "_" << current.m_gScore)
             .str() +
           ".cfg";
         std::ofstream os(file);

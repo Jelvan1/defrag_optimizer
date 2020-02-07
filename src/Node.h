@@ -8,17 +8,11 @@
 
 struct Node
 {
-  Node(Velocity const& v, int gScore, int hScore)
-    : m_v(v)
-    , m_gScore(gScore)
-    , m_hScore(hScore)
+  Node(Velocity const& v, int gScore, int hScore) : m_v(v), m_gScore(gScore), m_hScore(hScore)
   {
   }
 
-  Node(Node const& node, int gScore)
-    : m_v(node.m_v)
-    , m_gScore(gScore)
-    , m_hScore(node.m_hScore)
+  Node(Node const& node, int gScore) : m_v(node.m_v), m_gScore(gScore), m_hScore(node.m_hScore)
   {
     assert(m_gScore < node.m_gScore); // Check that we are creating a better node.
   }

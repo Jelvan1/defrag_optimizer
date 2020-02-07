@@ -9,8 +9,7 @@ class Angle
 public:
   Angle() = default;
 
-  explicit Angle(std::int32_t angle)
-    : m_angle(angle & 65535)
+  explicit Angle(std::int32_t angle) : m_angle(angle & 65535)
   {
   }
 

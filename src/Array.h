@@ -11,8 +11,7 @@ public:
   static_assert(N > 1);
 
   template <typename... U>
-  constexpr Array(U... e)
-    : m_array{ static_cast<T>(e)... }
+  constexpr Array(U... e) : m_array{ static_cast<T>(e)... }
   {
   }
 
