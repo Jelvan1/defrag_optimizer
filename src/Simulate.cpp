@@ -11,7 +11,7 @@ namespace
 {
 static std::array<std::array<float, 2>, 65536> cosSinTable = [] {
   std::array<std::array<float, 2>, 65536> table;
-  for (int yaw = 0; yaw < 65536; ++yaw)
+  for (std::int32_t yaw = 0; yaw < 65536; ++yaw)
   {
     // PM_UpdateViewAngles
     float const yaw_DEG = SHORT2ANGLE(yaw);
@@ -36,7 +36,7 @@ void Simulate<friction_, acceleration_>::friction(Velocity& v)
   float const speed = v.VectorLength();
   if (speed < 1)
   {
-    v = 0;
+    v.fill(0);
     return;
   }
 

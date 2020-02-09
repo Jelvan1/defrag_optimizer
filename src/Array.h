@@ -3,14 +3,18 @@
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <type_traits>
 
 template <typename T, std::size_t N>
 class Array
 {
 public:
+  static_assert(std::is_arithmetic_v<T>);
   static_assert(N > 1);
 
-  template <typename... U>
+  constexpr Array() = default;
+
+  template <typename... U, std::enable_if_t<sizeof...(U) == N>* = nullptr>
   constexpr Array(U... e) : m_array{ static_cast<T>(e)... }
   {
   }
@@ -50,6 +54,12 @@ public:
     return length;
   }
 
+  Array& fill(T const value)
+  {
+    m_array.fill(value);
+    return *this;
+  }
+
   bool operator==(Array const& other) const
   {
     return m_array == other.m_array;
@@ -60,13 +70,7 @@ public:
     return m_array != other.m_array;
   }
 
-  Array& operator=(T const& value)
-  {
-    m_array.fill(value);
-    return *this;
-  }
-
-  Array& operator*=(T const& value)
+  Array& operator*=(T const value)
   {
     static_assert(N == 2);
     m_array[0] *= value;
@@ -85,5 +89,5 @@ public:
   }
 
 protected:
-  std::array<T, N> m_array;
+  std::array<T, N> m_array{};
 };

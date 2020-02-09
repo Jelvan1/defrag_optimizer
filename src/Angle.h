@@ -7,13 +7,13 @@
 class Angle
 {
 public:
-  Angle() = default;
+  constexpr Angle() = default;
 
-  explicit Angle(std::int32_t angle) : m_angle(angle & 65535)
+  constexpr explicit Angle(std::int32_t angle) : m_angle(angle & 65535)
   {
   }
 
-  std::uint16_t value() const
+  constexpr std::uint16_t value() const
   {
     return m_angle;
   }

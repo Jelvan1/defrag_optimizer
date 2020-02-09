@@ -61,7 +61,7 @@ IncludeBlocks: Regroup
 IncludeCategories:
   - Regex:    '^"'
     Priority: 1
-  - Regex:    '^<[[:alnum:].]+>'
+  - Regex:    '^<[[:word:].]+>'
     Priority: 3
   - Regex:    '.+'
     Priority: 2
