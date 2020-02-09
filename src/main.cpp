@@ -136,8 +136,6 @@ int main()
     std::cout << "Initial velocity: " << init_vel << '\n';
 
     nodeSet openSet;
-    // std::set<Velocity> closedSet;
-    Matrix<bool> closedSet;
 
     std::map<Velocity, std::pair<Velocity, Angle>> cameFrom;
 
@@ -150,15 +148,12 @@ int main()
     float best_v = 0;
     while (!openSet.empty())
     {
-      Node const current                              = openSet.pop();
-      closedSet.value(current.m_v[0], current.m_v[1]) = true;
-      // auto const [it, inserted] = closedSet.emplace(current.m_v);
-      // assert(inserted);
+      Node const current = openSet.pop();
 
       // file << current.m_v[0] << ',' << current.m_v[1] << ',' << best_v << ',' <<
       //   current.m_gScore << ',' << current.m_hScore << ',' << current.m_gScore + current.m_hScore << '\n';
 
-#ifndef WALK
+#if 0
       if (current.m_gScore + current.m_hScore > 98)
       {
         std::cout << "ABORT\n";
@@ -200,21 +195,18 @@ int main()
         reconstruct_path(os, cameFrom, current.m_v);
       }
 
-#ifndef WALK
+#if 0
       // Don't generate neighbours.
       if (current.m_gScore == 98) continue;
 #endif
 
-      // int const tentative_gScore = current.m_gScore + 1;
+      int const tentative_gScore = current.m_gScore + 1;
 
       auto const neighbours = current.neighbours();
       for (auto const& [neighbour, yaw] : neighbours)
       {
-        if (closedSet.value(neighbour[0], neighbour[1])) continue;
-        // if (closedSet.count(neighbour)) continue;
-
         // int const tentative_gScore = -neighbour.VectorLength();
-        int const tentative_gScore = -neighbour[0];
+        // int const tentative_gScore = -neighbour[0];
         if (auto& iter = gScoresPtr->value(neighbour[0], neighbour[1]); iter == 0) // TODO: correct?
         // if (auto const iter = gScoresPtr->find(neighbour); iter == gScoresPtr->cend())
         {
